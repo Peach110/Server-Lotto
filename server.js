@@ -7,7 +7,7 @@ const os = require("os");
 const bcrypt = require("bcrypt");
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(cors());
@@ -960,6 +960,6 @@ app.post("/reset-all", async (req, res) => {
 });
 
 
-app.listen(port, ip, () => {
-  console.log(`✅ Mydatabase API listening at http://${ip}:${port}`);
+app.listen(PORT, () => {
+  console.log(`✅ Mydatabase API listening at http://localhost:${PORT}`);
 });
