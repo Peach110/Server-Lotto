@@ -915,6 +915,7 @@ for (const iface of Object.values(interfaces)) {
 }
 
 // POST /reset-all
+// POST /reset-all
 app.post("/reset-all", async (req, res) => {
   try {
     // ลบ Purchase ที่เกี่ยวข้องกับ Lotto ของผู้ใช้ไม่ใช่ Typeuser=2
@@ -926,12 +927,12 @@ app.post("/reset-all", async (req, res) => {
       WHERE pe.Typeuser != 2
     `);
 
-    // ลบ Lotto ของผู้ใช้ไม่ใช่ Typeuser=2
+    // ✅ ลบ Lotto ของผู้ใช้ที่ไม่ใช่ Typeuser=2
     await db.query(`
       DELETE l
       FROM Lotto l
       JOIN Person pe ON l.Person_id = pe.Person_id
-      WHERE pe.Typeuser = 2
+      WHERE pe.Typeuser != 2
     `);
 
     // ลบ Admin ของผู้ใช้ที่ไม่ใช่ Typeuser=2
@@ -948,9 +949,8 @@ app.post("/reset-all", async (req, res) => {
       WHERE Typeuser != 2
     `);
 
-    // await db.query("DELETE FROM Purchase")
-    await db.query("DELETE FROM Lotto;")
-    
+    // 🟡 ล้าง Lotto ทั้งหมด (อันนี้อาจไม่จำเป็นแล้ว เพราะลบไปด้านบน)
+    // await db.query("DELETE FROM Lotto;")
 
     res.json({ success: true, message: "ล้างข้อมูลเรียบร้อยแล้ว (เว้น Typeuser=2)" });
   } catch (err) {
